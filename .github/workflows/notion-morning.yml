@@ -3,7 +3,7 @@ on:
   schedule:
     - cron: '30 23 * * 1-5'
   push:
-    tags: ["notion-morning-test"]
+    tags: ["notion-morning-test*"]
 jobs:
   create-daily-check:
     environment: production
