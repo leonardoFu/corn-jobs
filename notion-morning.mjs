@@ -8,7 +8,14 @@ const DAY_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Fr
 
 function genNewTitle () {
   const date = new Date();
-  return `${date.getMonth() + 1}/${date.getDate()} ${DAY_OF_WEEK[date.getDay()]} Check`;
+
+  const options = {
+    timeZone: "Asia/Shanghai",
+    month: '2-digit',
+    day: '2-digit'
+  };
+
+  return `${date.toLocaleString('en-US', options)} ${DAY_OF_WEEK[date.getDay()]} Check`;
 }
 
 function genPropsFromOld(oldProps) {
