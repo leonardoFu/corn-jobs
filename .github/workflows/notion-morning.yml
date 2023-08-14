@@ -7,7 +7,7 @@ on:
 jobs:
   create-daily-check:
     environment: production
-    runs-on: ubunto-latest
+    runs-on: ubuntu-latest
     steps:
     - name: check out code
       uses: actions/checkout@v3
