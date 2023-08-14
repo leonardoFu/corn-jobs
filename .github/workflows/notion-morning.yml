@@ -1,0 +1,29 @@
+name: Notion morning
+on: 
+  schedule:
+    - cron: '30 23 * * 1-5'
+  push:
+    tags: ["notion-morning-test"]
+jobs:
+  create-daily-check:
+    environment: production
+    runs-on: ubunto-latest
+    steps:
+    - name: check out code
+      uses: actions/checkout@v3
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 14.x
+    - name: setup global dependencies
+      run: |
+        npm install yarn -g
+    - name: setup repo dependencies
+      run: |
+        yarn install
+    - name: invoke notion api
+      run: |
+        node notion-morning.mjs
+      env:
+        NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+        DAILY_CHECKOUT_DB_ID: ${{ secrets.DAILY_CHECKOUT_DB_ID }}
