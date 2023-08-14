@@ -1,6 +1,6 @@
 import { Client } from "@notionhq/client"
 
-const notion = new Client({ auth: process.env.NOTION_KEY })
+const notion = new Client({ auth: process.env.NOTION_API_KEY })
 
 const databaseId = process.env.DAILY_CHECKOUT_DB_ID
 
