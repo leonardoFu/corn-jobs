@@ -1,10 +1,8 @@
 import { Client } from "@notionhq/client"
 
 const notion = new Client({ auth: process.env.NOTION_KEY })
-// const notion = new Client({ auth: 'secret_JfFMl6u0ErVkNSOAcJxOTPKW1gjoLnxScKFNaXtLIEQ' });
 
 const databaseId = process.env.DAILY_CHECKOUT_DB_ID
-// const databaseId = '3a732ce9653d46cc97c034a4d9d97750';
 
 const DAY_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
