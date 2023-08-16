@@ -1,6 +1,6 @@
 import { Client } from "@notionhq/client"
+const notion = new Client({ auth: process.env.NOTION_KEY })
 
-const notion = new Client({ auth: process.env.NOTION_API_KEY })
 
 const databaseId = process.env.DAILY_CHECKOUT_DB_ID
 
@@ -18,6 +18,21 @@ function genNewTitle () {
   return `${date.toLocaleString('en-US', options)} ${DAY_OF_WEEK[date.getDay()]} Check`;
 }
 
+function genNewDate() {
+  const date = new Date(); // 获取当前日期和时间
+
+  // 使用中国时区（北京时间）和语言格式
+  let dateString = date.toLocaleString("zh-CN", {timeZone: "Asia/Shanghai", hour12: false});
+
+  // 使用箭头函数和模板字符串将日期格式化为 "yyyy-mm-dd" 的形式
+  dateString = dateString.replace(/^(.*?)(\d+\/\d+\/\d+)(.*?)$/, (_, $1, $2) => {
+      const parts = $2.split('/');
+      return `${parts[2]}-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
+  });
+
+  return dateString;
+}
+
 function genPropsFromOld(oldProps) {
   return Object.keys(oldProps).reduce((newProps, propName) => {
     const prop = oldProps[propName];
@@ -27,6 +42,9 @@ function genPropsFromOld(oldProps) {
     switch (prop.type) {
       case 'checkbox':
         prop.checkbox = false;
+        break;
+      case 'date':
+        prop.date.start = genNewDate();
         break;
       case 'relation':
         prop.relation = [];
@@ -61,10 +79,8 @@ async function createTodayCheck(oldPage) {
       })
     }
     console.log(JSON.stringify(oldPageBlocks.results[10], 0, 2))
-    // console.log(genPropsFromOld(oldPage.properties))
-    const newPage = await notion.pages.create({
+    await notion.pages.create({
       properties: genPropsFromOld(oldPage.properties),
-      // content: oldPageBlocks.results.filter(block => block.type !== 'unsupported'),
       parent: {
         type: 'database_id',
         database_id: databaseId
