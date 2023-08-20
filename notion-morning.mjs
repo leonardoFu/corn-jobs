@@ -27,7 +27,7 @@ function genNewDate() {
   // 使用箭头函数和模板字符串将日期格式化为 "yyyy-mm-dd" 的形式
   dateString = dateString.replace(/^(.*?)(\d+\/\d+\/\d+)(.*?)$/, (_, $1, $2) => {
       const parts = $2.split('/');
-      return `${parts[2]}-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
+    return `${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}-${parts[2]}`;
   });
 
   return dateString;
