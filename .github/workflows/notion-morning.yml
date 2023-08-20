@@ -1,5 +1,6 @@
 name: Notion morning
 on: 
+  workflow_dispatch:
   schedule:
     - cron: '30 23 * * 1-5'
   push:
