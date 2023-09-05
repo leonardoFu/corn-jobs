@@ -27,7 +27,7 @@ function genNewDate() {
   // 使用箭头函数和模板字符串将日期格式化为 "yyyy-mm-dd" 的形式
   dateString = dateString.replace(/^(.*?)(\d+\/\d+\/\d+)(.*?)$/, (_, $1, $2) => {
       const parts = $2.split('/');
-    return `${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}-${parts[2]}`;
+    return `${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}-${parts[2].padStart(2, '0')}`;
   });
 
   return dateString;
@@ -78,9 +78,11 @@ async function createTodayCheck(oldPage) {
         block_id: oldPage.id
       })
     }
-    console.log(JSON.stringify(oldPageBlocks.results[10], 0, 2))
+    const properties = genPropsFromOld(oldPage.properties)
+    console.log('--New Page Properties--');
+    console.log(JSON.stringify(properties, 0, 2))
     await notion.pages.create({
-      properties: genPropsFromOld(oldPage.properties),
+      properties: properties,
       parent: {
         type: 'database_id',
         database_id: databaseId
@@ -115,7 +117,7 @@ async function createTodayCheck(oldPage) {
       const page = response.results.shift();
       // 寻找到页面
       const pageDetail = await notion.pages.retrieve({ page_id: page.id });
-      // console.log(JSON.stringify(pageDetail, 0, 2));
+      console.log(JSON.stringify(pageDetail, 0, 2));
       await createTodayCheck(pageDetail)
 
       await notion.pages.update({
