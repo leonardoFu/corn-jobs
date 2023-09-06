@@ -1,21 +1,16 @@
 import { Client } from "@notionhq/client"
+import { DateTime } from 'luxon'
+
 const notion = new Client({ auth: process.env.NOTION_API_KEY })
 
 
 const databaseId = process.env.DAILY_CHECKOUT_DB_ID
 
-const DAY_OF_WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
 function genNewTitle () {
-  const date = new Date();
-
-  const options = {
-    timeZone: "Asia/Shanghai",
-    month: '2-digit',
-    day: '2-digit'
-  };
-
-  return `${date.toLocaleString('en-US', options)} ${DAY_OF_WEEK[date.getDay()]} Check`;
+  const date = DateTime.now().setZone("Asia/Shanghai");
+  const dateString = date.toLocaleString({ ...DateTime.DATE_SHORT, year: undefined })
+  console.log(dateString)
+  return `${dateString} ${date.weekdayLong} Check`;
 }
 
 function genNewDate() {

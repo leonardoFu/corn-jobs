@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@notionhq/client": "^2.2.10"
+    "@notionhq/client": "^2.2.10",
+    "luxon": "^3.4.3"
   }
 }
